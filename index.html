@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery</title>
+    <style>
+        /* ========================================== */
+        /* 1. PROFESSIONAL MODERN DARK THEME LOOK     */
+        /* ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #000000; /* Deep Premium Black */
+            color: #ffffff;
+            padding: 20px 15px 100px 15px; /* Bottom nav ke liye space chhoda */
+        }
+
+        .gallery-wrapper {
+            max-width: 600px; /* Mobile app jaisa clean feel dene ke liye */
+            margin: 0 auto;
+        }
+
+        /* Top Header */
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 0 5px;
+        }
+
+        .header-section h1 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 20px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* Section Headings */
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+            font-weight: 600;
+            margin: 25px 0 15px 5px;
+            color: #ffffff;
+        }
+
+        .section-title span.action-btn {
+            color: #4da3ff;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* ========================================== */
+        /* 2. ALBUMS GRID (PIN & MORE ALBUMS)         */
+        /* ========================================== */
+        .albums-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .album-card {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            cursor: pointer;
+        }
+
+        .album-cover {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 18px;
+            overflow: hidden;
+            background-color: #1c1c1e;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .album-cover img, .album-cover video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .album-card:hover .album-cover img {
+            transform: scale(1.05);
+        }
+
+        .album-name {
+            font-size: 13px;
+            font-weight: 500;
+            margin-top: 8px;
+            color: #ffffff;
+            padding-left: 2px;
+        }
+
+        .album-count {
+            font-size: 11px;
+            color: #8e8e93;
+            margin-top: 2px;
+            padding-left: 2px;
+        }
+
+        /* ========================================== */
+        /* 3. FEATURED SECTION (CIRCULAR 4-GRID)      */
+        /* ========================================== */
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .featured-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .featured-cluster {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background-color: #1c1c1e;
+            border-radius: 20px;
+            padding: 8px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 6px;
+        }
+
+        .featured-cluster img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%; /* Pure circular elements like screenshot */
+        }
+
+        /* Smart categories grid pattern change */
+        .smart-cluster img {
+            border-radius: 8px; /* Mix shape for smart categories */
+        }
+
+        /* ========================================== */
+        /* 4. LIST ITEMS (MEDIA TYPES & MORE)        */
+        /* ========================================== */
+        .list-container {
+            background-color: #1c1c1e;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #2c2c2e;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .list-item:hover {
+            background-color: #2c2c2e;
+        }
+
+        .list-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .list-icon {
+            font-size: 18px;
+            color: #8e8e93;
+            width: 24px;
+            text-align: center;
+        }
+
+        .list-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #8e8e93;
+            font-size: 14px;
+        }
+
+        /* ========================================== */
+        /* 5. BOTTOM NAVIGATION BAR                   */
+        /* ========================================== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            background-color: #2c2c2e;
+            border-radius: 30px;
+            padding: 8px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            padding: 8px 24px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #a1a1a1;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-item.active {
+            background-color: #444446;
+            color: #ffffff;
+        }
+
+        /* Floating '+' Button attached to right bottom overlay */
+        .fab-add {
+            position: fixed;
+            bottom: 25px;
+            right: calc(50% - 180px); /* Aligned near bottom nav dynamically */
+            width: 50px;
+            height: 50px;
+            background-color: #ffffff;
+            color: #000000;
+            border: none;
+            border-radius: 50%;
+            font-size: 28px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(255,255,255,0.2);
+            z-index: 1001;
+            transition: transform 0.2s;
+        }
+
+        .fab-add:hover {
+            transform: scale(1.1);
+        }
+
+        /* Hidden Real File Input */
+        #real-file-input {
+            display: none;
+        }
+
+        /* ========================================== */
+        /* 6. PERMISSION ALERT & LIGHTBOX (MODAL)     */
+        /* ========================================== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            justify-content: center; align-items: center;
+        }
+
+        .modal-overlay.show { display: flex; }
+
+        .permission-box {
+            background-color: #1c1c1e;
+            padding: 25px;
+            border-radius: 20px;
+            width: 85%;
+            max-width: 320px;
+            text-align: center;
+            transform: scale(0.8);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal-overlay.show .permission-box { transform: scale(1); opacity: 1; }
+
+        .permission-box h2 { font-size: 20px; margin-bottom: 8px; }
+        .permission-box p { font-size: 13px; color: #8e8e93; margin-bottom: 20px; }
+
+        .perm-btn-stack { display: flex; flex-direction: column; gap: 10px; }
+        .perm-opt {
+            padding: 12px; border: none; border-radius: 12px;
+            font-size: 14px; font-weight: 600; cursor: pointer;
+        }
+        .opt-all { background-color: #007aff; color: white; }
+        .opt-limited { background-color: #30d158; color: white; }
+        .opt-deny { background-color: #2c2c2e; color: #ff453a; }
+
+        /* Fullscreen Lightbox View */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top:0; left:0; width:100%; height:100%;
+            background-color: #000; z-index: 3000;
+            justify-content: center; align-items: center;
+        }
+        .lightbox img, .lightbox video { max-width: 100%; max-height: 90%; }
+        .close-lightbox { position: absolute; top: 30px; right: 25px; font-size: 30px; color: #fff; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="gallery-wrapper">
+        <div class="header-section">
+            <h1 id="gallery-title">Gallery</h1>
+            <div class="header-icons">
+                <span>🔍</span>
+                <span>⋮</span>
+            </div>
+        </div>
+
+        <div class="section-title">
+            <span>Pin</span>
+            <span class="action-btn">Adjust</span>
+        </div>
+        <div class="albums-grid" id="pin-grid">
+            <div class="album-card" onclick="openMediaView('https://picsum.photos/id/64/1000/1000', 'img')">
+                <div class="album-cover" id="recent-cover">
+                    <img src="https://picsum.photos/id/64/400/400" alt="Recent" id="recent-img">
+                </div>
+                <div class="album-name">Recent</div>
+                <div class="album-count" id="recent-count">6,707</div>
+            </div>
+
+            <div class="album-card">
+                <div class="album-cover">
+                    <img src="https://picsum.photos/id/102/400/400" alt="Camera">
+                </div>
+                <div class="album-name">Camera</div>
+                <div class="album-count">1,439</div>
+            </div>
+
+            <div class="album-card" onclick="openMediaView('https://www.w3schools.com/html/mov_bbb.mp4', 'video')">
+                <div class="album-cover">
+                    <video muted loop autoplay src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
+                </div>
+                <div class="album-name">Videos</div>
+                <div class="album-count">2,117</div>
+            </div>
+
+            <div class="album-card">
+                <div class="album-cover">
+                    <img src="https://picsum.photos/id/364/400/400" alt="Screenshots">
+                </div>
+                <div class="album-name">Screenshots</div>
+                <div class="album-count">717</div>
+            </div>
+
+            <div class="album-card">
+                <div class="album-cover">
+                    <img src="https://picsum.photos/id/429/400/400" alt="Favourites">
+                </div>
+                <div class="album-name">Favourites</div>
+                <div class="album-count">203</div>
+            </div>
+        </div>
+
+        <div class="section-title">
+            <span>More albums</span>
+            <span>❯</span>
+        </div>
+        <div class="albums-grid">
+            <div class="album-card">
+                <div class="album-cover"><img src="https://picsum.photos/id/522/400/400" alt="vn"></div>
+                <div class="album-name">vn</div><div class="album-count">8</div>
+            </div>
+            <div class="album-card">
+                <div class="album-cover"><img src="https://picsum.photos/id/237/400/400" alt="Map"></div>
+                <div class="album-name">Map</div><div class="album-count">12</div>
+            </div>
+            <div class="album-card">
+                <div class="album-cover"><img src="https://picsum.photos/id/338/400/400" alt="masti"></div>
+                <div class="album-name">masti</div><div class="album-count">15</div>
+            </div>
+        </div>
+
+        <div class="section-title">
+            <span>Featured</span>
+        </div>
+        <div class="featured-grid">
+            <div class="featured-card">
+                <div class="featured-cluster">
+                    <img src="https://i.pravatar.cc/150?img=32" alt="p1">
+                    <img src="https://i.pravatar.cc/150?img=47" alt="p2">
+                    <img src="https://i.pravatar.cc/150?img=68" alt="p3">
+                    <img src="https://i.pravatar.cc/150?img=12" alt="p4">
+                </div>
+                <div class="album-name">People</div>
+            </div>
+            <div class="featured-card">
+                <div class="featured-cluster">
+                    <img src="https://picsum.photos/id/1015/150/150" alt="m1">
+                    <img src="https://picsum.photos/id/1016/150/150" alt="m2">
+                    <img src="https://picsum.photos/id/1018/150/150" alt="m3">
+                    <img src="https://picsum.photos/id/1019/150/150" alt="m4">
+                </div>
+                <div class="album-name">Memories</div>
+            </div>
+            <div class="featured-card">
+                <div class="featured-cluster smart-cluster">
+                    <img src="https://picsum.photos/id/84/150/150" alt="s1">
+                    <img src="https://picsum.photos/id/43/150/150" alt="s2">
+                    <img src="https://picsum.photos/id/103/150/150" alt="s3">
+                    <img src="https://picsum.photos/id/200/150/150" alt="s4">
+                </div>
+                <div class="album-name">Smart categories</div>
+            </div>
+        </div>
+
+        <div class="section-title"><span>Media types</span></div>
+        <div class="list-container">
+            <div class="list-item">
+                <div class="list-left"><span class="list-icon">⎋</span>GIF</div>
+                <div class="list-right">1 <span>❯</span></div>
+            </div>
+            <div class="list-item">
+                <div class="list-left"><span class="list-icon">⚃</span>Bursts</div>
+                <div class="list-right">2 <span>❯</span></div>
+            </div>
+            <div class="list-item">
+                <div class="list-left"><span class="list-icon">⏰</span>Slo-mo</div>
+                <div class="list-right">59 <span>❯</span></div>
+            </div>
+        </div>
+
+        <div class="section-title"><span>More</span></div>
+        <div class="list-container">
+            <div class="list-item">
+                <div class="list-left"><span class="list-icon">🔒</span>Private</div>
+                <div class="list-right"><span>❯</span></div>
+            </div>
+            <div class="list-item">
+                <div class="list-left"><span class="list-icon">🧹</span>Cleanup suggestions</div>
+                <div class="list-right"><span>❯</span></div>
+            </div>
+            <div class="list-item">
+                <div class="list-left"><span class="list-icon">🗑️</span>Recently deleted</div>
+                <div class="list-right">5 <span>❯</span></div>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" id="real-file-input" accept="image/*,video/*">
+
+    <button class="fab-add" onclick="showPermissionModal()">+</button>
+
+    <div class="modal-overlay" id="permissionModal">
+        <div class="permission-box">
+            <h2>Allow Access</h2>
+            <p>Allow Gallery to access photos and media on your device?</p>
+            <div class="perm-btn-stack">
+                <button class="perm-opt opt-all" onclick="grantAccess('all')">Allow all</button>
+                <button class="perm-opt opt-limited" onclick="rightToUpload()">Allow limited</button>
+                <button class="perm-opt opt-deny" onclick="grantAccess('deny')">Do not allow</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="lightbox" id="mediaLightbox">
+        <span class="close-lightbox" onclick="closeMediaView()">&times;</span>
+        <div id="lightbox-content" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;"></div>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item">Photos</div>
+        <div class="nav-item active">Albums</div>
+    </div>
+
+   
+    <script>
+        let uploadCounter = 6707;
+        let selectedPermissionMode = 'none';
+
+        // 1. Show Permission Alert Box
+        function showPermissionModal() {
+            document.getElementById('permissionModal').classList.add('show');
+        }
+
+        // 2. Handle Action Based on Permission Selection
+        function grantAccess(type) {
+            document.getElementById('permissionModal').classList.remove('show');
+            selectedPermissionMode = type;
+
+            if (type === 'all') {
+                alert("🔓 Full Storage Permission Granted! Select any image/video.");
+                rightToUpload(); // Directly triggers file dialog
+            } else if (type === 'deny') {
+                alert("❌ Permission Denied. You cannot access device storage.");
+            }
+        }
+
+        // 3. Trigger Device File Dialog Box
+        function rightToUpload() {
+            document.getElementById('permissionModal').classList.remove('show');
+            document.getElementById('real-file-input').click();
+        }
+
+        // 4. Core Logic: Read Real Uploaded File and Inject into Recent Section
+        document.getElementById('real-file-input').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const fileURL = URL.createObjectURL(file);
+            const recentContainer = document.getElementById('recent-cover');
+            
+            // Clear previous placeholder asset inside Recent
+            recentContainer.innerHTML = '';
+
+            // Check if file is image or video dynamically
+            if (file.type.startsWith('image/')) {
+                const img = document.createElement('img');
+                img.src = fileURL;
+                recentContainer.appendChild(img);
+                
+                // Add click handler to watch it full screen
+                recentContainer.parentElement.onclick = function() {
+                    openMediaView(fileURL, 'img');
+                };
+            } else if (file.type.startsWith('video/')) {
+                const video = document.createElement('video');
+                video.src = fileURL;
+                video.muted = true;
+                video.autoplay = true;
+                video.loop = true;
+                video.style.width = "100%";
+                video.style.height = "100%";
+                video.style.objectFit = "cover";
+                recentContainer.appendChild(video);
+
+                recentContainer.parentElement.onclick = function() {
+                    openMediaView(fileURL, 'video');
+                };
+            }
+
+            // Real Time UI data count increment
+            uploadCounter++;
+            document.getElementById('recent-count').innerText = uploadCounter.toLocaleString();
+        });
+
+       // 5. Fullscreen Preview Media View (Lightbox)
+        function openMediaView(src, type) {
+            const lightbox = document.getElementById('mediaLightbox');
+            const contentBox = document.getElementById('lightbox-content');
+            contentBox.innerHTML = '';
+
+            if (type === 'img') {
+                const img = document.createElement('img');
+                img.src = src;
+                contentBox.appendChild(img);
+            } else if (type === 'video') {
+                const vid = document.createElement('video');
+                vid.src = src;
+                vid.controls = true;
+                vid.autoplay = true;
+                vid.style.maxWidth = "100%";
+                vid.style.maxHeight = "90%";
+                contentBox.appendChild(vid);
+            }
+            lightbox.style.display = 'flex';
+        }
+
+        function closeMediaView() {
+            document.getElementById('mediaLightbox').style.display = 'none';
+            document.getElementById('lightbox-content').innerHTML = ''; // Stops video playback audio on close
+        }
+    </script>
+</body>
+</html>
